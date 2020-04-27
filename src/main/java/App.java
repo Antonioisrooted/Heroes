@@ -1,55 +1,79 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import models.Hero;
+import models.Squad;
+import spark.ModelAndView;
+import spark.template.handlebars.HandlebarsTemplateEngine;
+import util.Render;
 
 import static spark.Spark.*;
 
 public class App {
-    String name;
-    int age;
-    String sex;
-    boolean intact;
-    ArrayList<String> breeds;
-
-    public App(String name, int age, String sex, boolean intact, ArrayList<String> breeds) {
-        this.name = name;
-        this.age = age;
-        this.sex = sex;
-        this.intact = intact;
-        this.breeds = breeds;
+    static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
     }
+    public static void main(String[] args) {
+        port(getHerokuAssignedPort());
+        staticFiles.location("/public");
+        Map<String, Object> model = new HashMap<>();
+        /*Exception Handling*/
+        /*404*/
+        notFound((request, response) -> {
+            return Render.render(model, "404.hbs");
+        });
 
-    public String getName() {
-        return name;
-    }
+        /*500*/
+        internalServerError((request, response) -> {
+            return Render.render(model, "500.hbs");
+        });
 
-    public int getAge() {
-        return age;
-    }
+        /*home route*/
+        get("/", (request, response) -> {
+            model.put("squads", Squad.getSquadInstance());
+            model.put("heroes", Hero.getHeroInstance());
+            return Render.render(model, "index.hbs");
+        });
 
-    public String getSex() {
-        return sex;
-    }
+        /*squad path groups*/
+        path("/squad", () -> {
+            /*squad members*/
+            get("/members/:id", (request, response) -> {
+                Squad squadMembers = Squad.findById(Integer.parseInt(request.params("id")));
+                model.put("squadMembers", squadMembers);
+                return Render.render(model, "squad.hbs");
+            });
+            /*squad form*/
+            post("/form", (request, response) -> {
+                String squadName = request.queryParams("squadName");
+                int maxSize = Integer.parseInt(request.queryParams("maxSize"));
+                String motive = request.queryParams("motive");
+                Squad newSquad = new Squad(squadName, maxSize, motive);
+                response.redirect("/");
+                return null;
+            });
+        });
 
-    public App(String name) {
-        this.name = name;
-    }
-
-    public boolean isIntact() {
-        return intact;
-    }
-
-    public ArrayList<String> getBreeds() {
-        return breeds;
+        /*heroes path groups*/
+        path("/heroes", () -> {
+            /*heroes form*/
+            post("/form", (request, response) -> {
+                String heroName = request.queryParams("heroName");
+                int heroAge = Integer.parseInt(request.queryParams("heroAge"));
+                String specialAbility = request.queryParams("specialAbility");
+                String weakness = request.queryParams("weakness");
+                int squad = Integer.parseInt(request.queryParams("squad"));
+                Hero newHero = new Hero(heroName, heroAge, specialAbility, weakness, squad);
+                Squad newMember = Squad.findById(squad);
+                newMember.addHero(newHero);
+                response.redirect("/");
+                return null;
+            });
+        });
     }
 }
-
-//class App{
-//    String name;
-//
-//    public App(String name) {
-//        this.name = name;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//}
