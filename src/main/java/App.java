@@ -41,3 +41,15 @@ public class App {
         return breeds;
     }
 }
+
+//class App{
+//    String name;
+//
+//    public App(String name) {
+//        this.name = name;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//}
