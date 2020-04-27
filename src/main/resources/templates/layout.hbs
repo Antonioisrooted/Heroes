@@ -1,57 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{#block "title"}}Blog{{/block}}</title>
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
-</head>
-<body>
-<ul class="nav nav-tabs">
-    <li role="presentation" class="active"><a href="/">Home</a></li>
-    <li role="presentation"><a href="/tasks/new">Add a New Task</a></li>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>{{#block "title"}}Blog{{/block}}</title>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+    </head>
+    <body>
+        <h1>CREATE YOUR SUPERHERO</h1>
+        <div class="row">
+            <div class="col-sm-4">
+                <form method="POST" action="#">
 
-    <li role="presentation" class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-            Category Menu <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-            {{#if categories}}
-                {{#each categories}}
-                    <li><a href="/categories/{{id}}">{{name}}</a></li>
-                {{/each}}
-                <li><a href="/categories/new">Add a Category</a></li>
+                    <div alight="left">
+                        <label class="form-label">Hero Name</label>
+                        <input type="text" class="form-control" placeholder="Hero Name" name="name" id="name" required>
+                    </div>
 
-            {{else}}
-                <li><a href="/categories/new">Add a Category</a></li>
-            {{/if}}
-        </ul>
-    </li>
-</ul>
-<div class="container">
-    <!--begin main template-->
-    <div class="page-header">
-        <img src="/images/rawpixel-com-296621.jpg" width="70%" alt="https://unsplash.com/search/task?photo=Lh_bn9SgRSY">
-        <h1>Welcome to my To Do List. <small>Let's be organized, focused, and efficient.</small></h1>
-    </div>
+                    <div alight="left">
+                        <label class="form-label">Age</label>
+                        <input type="text" class="form-control" placeholder="Age" name="age" id="age" required>
+                    </div>
 
-    <div class="col-md-12">
-        {{#block "content"}}
-        {{/block}}
+                    <div alight="left">
+                        <label class="form-label">Power</label>
+                        <input type="text" class="form-control" placeholder="Power" name="power" id="power" required>
+                    </div>
 
-    </div>
-</div>
-<!--end main template-->
-{{#block "footer"}}
-    <footer class="footer">
-        <div class="container">
-            <hr>
-            <p class="text-muted">
-                <a href="/categories/delete">delete all categories & tasks</a><br>
-                <a href="/tasks/delete">delete all tasks</a>
-            </p>
+                    <div alight="left">
+                        <label class="form-label">Weakness</label>
+                        <input type="text" class="form-control" placeholder="Weakness" name="weakness" id="weakness" required>
+                    </div>
+
+                    <div alight="right">
+                        <input type="submit" id="submit" value="submit" name="submit" class="btn btn-info">
+                        <input type="submit" id="reset" value="reset" name="reset" class="btn btn-warning">
+                    </div>
+
+                </form>
+            </div>
         </div>
-    </footer>
+
     </body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </html>
-{{/block}}
