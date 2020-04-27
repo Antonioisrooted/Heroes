@@ -1,45 +1,18 @@
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>{{#block "title"}}Blog{{/block}}</title>
-        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
-    </head>
-    <body>
-        <h1>CREATE YOUR SUPERHERO</h1>
-        <div class="row">
-            <div class="col-sm-4">
-                <form method="POST" action="#">
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>{{#block "title" }}{{/block}}Heros-code</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel='stylesheet' href='/app.css'>
+    <link rel="stylesheet" href ="CSS/styles.css">
+</head>
+<body>
+<div class = "container">
+    {{#block "content" }}
 
-                    <div alight="left">
-                        <label class="form-label">Hero Name</label>
-                        <input type="text" class="form-control" placeholder="Hero Name" name="name" id="name" required>
-                    </div>
-
-                    <div alight="left">
-                        <label class="form-label">Age</label>
-                        <input type="text" class="form-control" placeholder="Age" name="age" id="age" required>
-                    </div>
-
-                    <div alight="left">
-                        <label class="form-label">Power</label>
-                        <input type="text" class="form-control" placeholder="Power" name="power" id="power" required>
-                    </div>
-
-                    <div alight="left">
-                        <label class="form-label">Weakness</label>
-                        <input type="text" class="form-control" placeholder="Weakness" name="weakness" id="weakness" required>
-                    </div>
-
-                    <div alight="right">
-                        <input type="submit" id="submit" value="submit" name="submit" class="btn btn-info">
-                        <input type="submit" id="reset" value="reset" name="reset" class="btn btn-warning">
-                    </div>
-
-                </form>
-            </div>
-        </div>
-
+    {{/block}}
+</div>
+{{#block "footer" }}
     </body>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </html>
+{{/block}}

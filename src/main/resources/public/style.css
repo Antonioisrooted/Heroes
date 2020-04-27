@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: brown;
+    font-family: 'Lato', sans-serif;
+}
+nav{
+    box-shadow: darkgray;
+}
+#brand, #hero-title, #success, #hero-name{
+    font-weight: bolder;
+}
+#my-squad, #squad-card{
+    width: 50%;
+    margin: auto;
+}
+.nav-item a:hover{
+    border-bottom: 2px solid black;
+}
+
+@media only screen and (max-width: 500px) {
+    #my-squad, #squad-card{
+        width: 90%;
+    }
+}
