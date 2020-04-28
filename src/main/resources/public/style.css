@@ -22,6 +22,10 @@ nav{
 .nav-item a:hover{
     border-bottom: 2px solid black;
 }
+.one{
+    height: 20px;
+    background color: blue;
+}
 
 @media only screen and (max-width: 500px) {
     #my-squad, #squad-card{
