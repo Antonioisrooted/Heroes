@@ -3,49 +3,69 @@ package models;
 import java.util.ArrayList;
 
 public class Hero {
-    private int id;
     private String name;
     private int age;
-    private String specialPower;
+    private String specialPowers;
     private String weakness;
-    private int squad;
-    private static ArrayList<Hero> heroInstance = new ArrayList<>();
+    private static ArrayList<Hero> heroes = new ArrayList();
+    private int id;
+    private String heroSquad;
 
-    public Hero(String name, int age, String specialPower, String weakness, int squad) {
-        this.id = heroInstance.size();
+    public Hero(String name, int age, String specialPowers, String weakness, String heroSquad){
         this.name = name;
         this.age = age;
-        this.specialPower = specialPower;
+        this.specialPowers = specialPowers;
         this.weakness = weakness;
-        this.squad = squad;
-        this.heroInstance.add(this);
+        this.heroes.add(this);
+        this.id = heroes.size();
+        this.heroSquad = heroSquad;
     }
-
-    public int getSquad() { return squad; }
-
-    public int getId() { return id; }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getAge() {
         return age;
     }
 
-    public String getSpecialPower() {
-        return specialPower;
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getSpecialPowers() {
+        return specialPowers;
+    }
+
+    public void setSpecialPowers(String specialPowers) {
+        this.specialPowers = specialPowers;
     }
 
     public String getWeakness() {
         return weakness;
     }
 
-    public static ArrayList<Hero> getHeroInstance() {
-        return heroInstance;
+    public void setWeakness(String weakness) {
+        this.weakness = weakness;
     }
 
-    public static Hero findById(int id) {
-        return heroInstance.get(id-1);
+    public static ArrayList<Hero> getHeroes() {
+        return heroes;
+    }
+
+    public static Hero findById(int id){
+        return heroes.get(id -1);
+    }
+
+    public String getSquad(){
+        return heroSquad;
+    }
+
+    public int getId() {
+        return id;
     }
 }

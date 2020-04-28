@@ -1,55 +1,46 @@
 package models;
+
+
 import java.util.ArrayList;
-import java.util.List;
+
 public class Squad {
-    private int id;
     private String name;
-    private int currentSize;
+    private String dedicatedToFight;
     private int maxSize;
-    private String motive;
-    private ArrayList<Hero> heroes = new ArrayList<>();
-    private static ArrayList<Squad> squadInstance = new ArrayList<>();
-
-
-    public Squad(String name, int maxSize, String motive) {
-        this.id = squadInstance.size();
+    private static ArrayList<Squad>squads = new ArrayList<>();
+    public Squad(String name, String dedicatedToFight, int maxSize) {
         this.name = name;
-        this.currentSize = 0;
+        this.dedicatedToFight = dedicatedToFight;
         this.maxSize = maxSize;
-        this.motive = motive;
-        this.squadInstance.add(this);
+        squads.add(this);
     }
-
-    public int getId() { return id; }
 
     public String getName() {
         return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDedicatedToFight() {
+        return dedicatedToFight;
+    }
+
+    public void setDedicatedToFight(String dedicatedToFight) {
+        this.dedicatedToFight = dedicatedToFight;
+    }
+
     public int getMaxSize() {
         return maxSize;
     }
-    public String getMotive() { return motive; }
 
-    public int getCurrentSize() { return currentSize; }
-
-    public ArrayList<Hero> getHeroes() { return heroes; }
-
-    public static ArrayList<Squad> getSquadInstance() {
-        return Squad.squadInstance;
-    }
-    public static Squad findById(int id) {return squadInstance.get(id);}
-
-    public static void clearAll() {
-        squadInstance.clear();
+    public void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
     }
 
-    public void addHero(Hero newHero) {
-        if (currentSize < maxSize) {
-            heroes.add(newHero);
-            currentSize ++;
-        }
-        else {
-            getHeroes();
-        }
+    public static ArrayList<Squad> getSquads() {
+        return squads;
     }
+
 }

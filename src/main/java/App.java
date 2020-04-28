@@ -1,79 +1,80 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import models.Hero;
 import models.Squad;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
-import util.Render;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static spark.Spark.*;
 
 public class App {
-    static int getHerokuAssignedPort() {
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        if (processBuilder.environment().get("PORT") != null) {
-            return Integer.parseInt(processBuilder.environment().get("PORT"));
-        }
-        return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
-    }
     public static void main(String[] args) {
-        port(getHerokuAssignedPort());
-        staticFiles.location("/public");
-        Map<String, Object> model = new HashMap<>();
-        /*Exception Handling*/
-        /*404*/
-        notFound((request, response) -> {
-            return Render.render(model, "404.hbs");
-        });
 
-        /*500*/
-        internalServerError((request, response) -> {
-            return Render.render(model, "500.hbs");
-        });
+        ProcessBuilder process = new ProcessBuilder();
+        Integer port;
 
-        /*home route*/
-        get("/", (request, response) -> {
-            model.put("squads", Squad.getSquadInstance());
-            model.put("heroes", Hero.getHeroInstance());
-            return Render.render(model, "index.hbs");
-        });
+        // This tells our app that if Heroku sets a port for us, we need to use that port.
+        // Otherwise, if they do not, continue using port 4567.
 
-        /*squad path groups*/
-        path("/squad", () -> {
-            /*squad members*/
-            get("/members/:id", (request, response) -> {
-                Squad squadMembers = Squad.findById(Integer.parseInt(request.params("id")));
-                model.put("squadMembers", squadMembers);
-                return Render.render(model, "squad.hbs");
-            });
-            /*squad form*/
-            post("/form", (request, response) -> {
-                String squadName = request.queryParams("squadName");
-                int maxSize = Integer.parseInt(request.queryParams("maxSize"));
-                String motive = request.queryParams("motive");
-                Squad newSquad = new Squad(squadName, maxSize, motive);
-                response.redirect("/");
-                return null;
-            });
-        });
+        if (process.environment().get("PORT") != null) {
+            port = Integer.parseInt(process.environment().get("PORT"));
+        } else {
+            port = 8080;
+        }
 
-        /*heroes path groups*/
-        path("/heroes", () -> {
-            /*heroes form*/
-            post("/form", (request, response) -> {
-                String heroName = request.queryParams("heroName");
-                int heroAge = Integer.parseInt(request.queryParams("heroAge"));
-                String specialAbility = request.queryParams("specialAbility");
-                String weakness = request.queryParams("weakness");
-                int squad = Integer.parseInt(request.queryParams("squad"));
-                Hero newHero = new Hero(heroName, heroAge, specialAbility, weakness, squad);
-                Squad newMember = Squad.findById(squad);
-                newMember.addHero(newHero);
-                response.redirect("/");
-                return null;
-            });
-        });
+        port(port);
+        staticFileLocation("/public");
+
+        get("/",(request, response) -> {
+            Map<String, ArrayList<Hero>> model = new HashMap<>();
+            ArrayList heroes =  Hero.getHeroes();
+            model.put("heroes", heroes);
+            return new ModelAndView(model,"index.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        post("/success", (request, response) -> {
+            Map<String, ArrayList<Hero>> model = new HashMap<>();
+            String name = request.queryParams("name");
+            int age = Integer.parseInt(request.queryParams("age"));
+            String specialPower = request.queryParams("powers");
+            String weakness = request.queryParams("weakness");
+            String squad = request.queryParams("squad");
+            Hero heroes = new Hero(name,age,specialPower,weakness,squad);
+            return new ModelAndView(model, "success.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        get("/heroes/:id", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            int id = Integer.parseInt(request.params(":id"));
+            ArrayList heroes = Hero.getHeroes();
+            model.put("heroes",heroes);
+            Hero heroFound = Hero.findById(id);
+            model.put("heroFound",heroFound);
+            return new ModelAndView(model, "add_to_squad.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        post("/squad-created", (request, response) -> {
+            Map<String,Object>model = new HashMap<>();
+            String name = request.queryParams("name");
+            String motive = request.queryParams("motive");
+            int maxSize = Integer.parseInt(request.queryParams("size"));
+            Squad squad = new Squad(name, motive, maxSize);
+            return new ModelAndView(model, "squad-success.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        get("/squads",(request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            ArrayList squads = Squad.getSquads();
+            ArrayList heroes = Hero.getHeroes();
+            int size = heroes.size();
+            model.put("squads", squads);
+            model.put("heroes", heroes);
+            model.put("size",size);
+            return new ModelAndView(model, "squads.hbs");
+        }, new HandlebarsTemplateEngine());
+
+
     }
 }
