@@ -6,11 +6,11 @@
     box-sizing: border-box;
 }
 body{
-    background-color: brown;
+    background-color: blue;
     font-family: 'Lato', sans-serif;
 }
 nav{
-    box-shadow: darkgray;
+    box-shadow: dark gray;
 }
 #brand, #hero-title, #success, #hero-name{
     font-weight: bolder;
