@@ -10,7 +10,7 @@
 # Project setup instructions
   Java, HTML, CSS and Spark
 
-# Link to live site on
+# Link to live site on heroku
 
 
 # Copyright and license information
