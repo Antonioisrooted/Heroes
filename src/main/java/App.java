@@ -10,24 +10,25 @@ import java.util.Map;
 import static spark.Spark.*;
 
 public class App {
-    public static void main(String[] args) {
+    static int getHerokuAssignedPort() {
 
         ProcessBuilder process = new ProcessBuilder();
-        Integer port;
 
         if (process.environment().get("PORT") != null) {
-            port = Integer.parseInt(process.environment().get("PORT"));
+            return Integer.parseInt(process.environment().get("PORT"));
         } else {
-            port = 8080;
+            return 4567;
         }
+    }
+    public static void main(String[] args) {
 
-        port(port);
+        port(getHerokuAssignedPort());
         staticFileLocation("/public");
 
         get("/",(request, response) -> {
             Map<String, ArrayList<Hero>> model = new HashMap<>();
-            ArrayList heroes =  Hero.getHeroes();
-            model.put("heroes", heroes);
+            ArrayList<Hero> heroes =  Hero.getHeroes();
+            ArrayList<Hero> heroArrayList = model.put("heroes", heroes);
             return new ModelAndView(model,"index.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -45,7 +46,7 @@ public class App {
         get("/heroes/:id", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
             int id = Integer.parseInt(request.params(":id"));
-            ArrayList heroes = Hero.getHeroes();
+            ArrayList<Hero> heroes = Hero.getHeroes();
             model.put("heroes",heroes);
             Hero heroFound = Hero.findById(id);
             model.put("heroFound",heroFound);
@@ -63,8 +64,8 @@ public class App {
 
         get("/squads",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
-            ArrayList squads = Squad.getSquads();
-            ArrayList heroes = Hero.getHeroes();
+            ArrayList<Squad> squads = Squad.getSquads();
+            ArrayList<Hero> heroes = Hero.getHeroes();
             int size = heroes.size();
             model.put("squads", squads);
             model.put("heroes", heroes);
