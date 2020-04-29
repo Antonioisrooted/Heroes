@@ -1,16 +1,15 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700&display=swap');
-
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
-body{
+.container{
     background-color: blue;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Lalo', sans-serif;
+    font-size: 12px;
 }
 nav{
-    box-shadow: dark gray;
+
 }
 #brand, #hero-title, #success, #hero-name{
     font-weight: bolder;
@@ -22,13 +21,12 @@ nav{
 .nav-item a:hover{
     border-bottom: 2px solid black;
 }
-.one{
-    height: 20px;
-    background color: blue;
-}
-
 @media only screen and (max-width: 500px) {
     #my-squad, #squad-card{
         width: 90%;
     }
+}
+ul{
+    padding: 2px;
+    text in-line: center;
 }

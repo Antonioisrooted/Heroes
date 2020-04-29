@@ -1,0 +1,113 @@
+{{#partial "content"}}
+    <h1>My Heroes</h1>
+    <div class ="row">
+        <div class="col-md-6 p-7">
+            <h2>Create a squad for your Heroes</h2>
+            <form action="/squad/form" method="post">
+                <div class="form-group">
+                    <input type="text" placeholder="Squad Name" class="form-control form-control-sm" name="squadName" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" placeholder="Max Size" class="form-control form-control-sm" name="maxSize" required>
+                </div>
+                <div class="form-group">
+                    <select name="motive" id="" class="form-control form-control-sm" required="required">
+                        <option label="-Squad Cause/Motive-"></option>
+                        <option value="Track Hacker's">Track Hacker's</option>
+                        <option value="Prevent Alien Invasion">Prevent Alien Invasion</option>
+                        <option value="Fight Sexism">Fight Sexism</option>
+                        <option value="Black Lives Matter">Black Lives Matter</option>
+                        <option value="Suicide">Suicide</option>
+                        <option value="Democracy">Democracy</option>
+                        <option value="Drive Fast">Drive Fast</option>
+                        <option value="Fight Anti-Heroes">Fight Anti-Heroes</option>
+                        <option value="Live Fast, Die Young">Live Fast, Die Young</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Create Squad</button>
+                </div>
+            </form>
+            <h2>Add Hero, abilities and weaknesses</h2>
+            <form action="/heroes/form" method="post">
+                <div class="form-group">
+                    <input type="text" placeholder="Enter Hero Name" class="form-control form-control-sm" name="heroName" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" placeholder="Enter Hero's Age" class="form-control form-control-sm" name="heroAge" required>
+                </div>
+                <div class="form-group">
+                    <select name="specialAbility" id="" class="form-control form-control-sm" required="required">
+                        <option label="-Choose Special Ability-"></option>
+                        <option value="Superhuman Strength">Superhuman Strength</option>
+                        <option value="Camouflage">Camouflage</option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="weakness" id="" class="form-control form-control-sm" required="required">
+                        <option label="-Choose Weakness-"></option>
+                        <option value="Alcoholism">Alcoholism</option>
+                        <option value="Magic">Magic</option>
+                        <option value="Self Control">Self Control</option>
+                        <option value="Ego">Ego</option>
+                        <option value="Radiation">Radiation</option>
+                        <option value="Women">Women</option>
+                        <option value="Fire">Fire</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="squad" id="" class="form-control form-control-sm" required="required">
+                        {{#if squads}}
+                            <option label="-Choose Squad-"></option>
+                            {{#each squads}}
+                                <option value="{{id}}">{{name}}</option>
+                            {{/each}}
+                        {{else}}
+                            <option label="No Squads Created"></option>
+                        {{/if}}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block">Add Hero</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h2>Heroes</h2>
+
+            {{#if heroes}}
+                <div class="container list-heroes">
+                    {{#each heroes}}
+                        <div class="heroes shadow p-2 mb-2 bg-light rounded">
+                            <h6>{{name}} <span class="text-dark">({{age}} Years)</span></h6>
+                            <p><span class="text-success">Special Ability: <span class="text-dark">{{specialPower}}</span></span> | <span class="text-danger">Weakness: </span><span class="text-dark">{{weakness}}</span></p>
+                        </div>
+                    {{/each}}
+                </div>
+            {{else}}
+                <div class="heroes shadow p-2 mb-2 bg-light rounded">
+                    <p class="text-danger">No Heroes Added!!!</p>
+                </div>
+            {{/if}}
+            <h2>Squads</h2>
+
+            {{#if squads}}
+                <div class="container list-squads">
+                    {{#each squads}}
+                        <div class="squads shadow p-2 mb-2 bg-light rounded">
+                            <h6>{{name}}</h6>
+                            <span class="text-success">Current Size: {{currentSize}}</span> | <span class="text-danger">Max Size: {{maxSize}}</span>
+                            <p>Motive: <span class="text-dark">{{motive}}</span></p>
+                            <p>> <a href="squad/members/{{id}}" class="text-success">View Squad Members</a></p>
+                        </div>
+                    {{/each}}
+                </div>
+            {{else}}
+                <p class="text-danger">No Squads Added!!!</p>
+            {{/if}}
+        </div>
+    </div>
+{{/partial}}
+
+{{> layout.hbs}}
